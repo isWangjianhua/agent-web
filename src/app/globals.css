@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f6f3;
+  --foreground: #18181b;
+  --surface: #ffffff;
+  --surface-muted: #f0f1ee;
+  --line: #dedfd9;
+  --muted: #71717a;
+  --accent: #047857;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+
+button,
+a,
+input,
+textarea {
+  letter-spacing: 0;
+}
+
+.icon-button {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  background: var(--surface);
+  color: #3f3f46;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.icon-button:hover {
+  border-color: #c8cac2;
+  background: #fafaf8;
+  color: #18181b;
+}
+
+.agent-chat {
+  min-height: 660px;
+  height: calc(100dvh - 5.5rem);
+}
+
+.agent-chat__surface {
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.copilotKitChat {
+  height: 100%;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif !important;
+}
+
+.copilotKitHeader {
+  border-bottom-color: var(--line) !important;
+}
+
+.copilotKitInput,
+.copilotKitInput textarea {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif !important;
+}
+
+.copilotKitInput textarea {
+  min-height: 48px !important;
+}
+
+.copilotKitMessage {
+  border-radius: 0.5rem !important;
+}
+
+@media (max-width: 1023px) {
+  .agent-chat {
+    height: 720px;
+  }
+}
