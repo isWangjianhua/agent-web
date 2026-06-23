@@ -210,7 +210,7 @@ export function AppShell() {
                 <dt className="text-[var(--muted)]">user</dt>
                 <dd className="font-mono">local-user</dd>
                 <dt className="text-[var(--muted)]">store</dt>
-                <dd className="font-mono">Mem0</dd>
+                <dd className="font-mono">memory</dd>
               </dl>
             </div>
           </section>

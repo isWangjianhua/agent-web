@@ -11,6 +11,8 @@ import {
 } from "@phosphor-icons/react";
 import { CopilotChat, type AttachmentsConfig } from "@copilotkit/react-ui";
 
+import { agentChatSuggestions } from "./agent-chat-config";
+
 async function uploadAttachment(file: File) {
   const response = await fetch("/api/uploads/presign", {
     method: "POST",
@@ -93,20 +95,7 @@ export function AgentChat() {
           thumbsUp: "认可",
           thumbsDown: "否决",
         }}
-        suggestions={[
-          {
-            title: "报价",
-            message: "根据已上传的零件资料生成报价分析。",
-          },
-          {
-            title: "图纸",
-            message: "提取图纸关键尺寸和制造约束。",
-          },
-          {
-            title: "工具",
-            message: "列出当前 FastMCP 可用工具和用途。",
-          },
-        ]}
+        suggestions={agentChatSuggestions}
       />
     </div>
   );

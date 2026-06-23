@@ -10,14 +10,14 @@ describe("copilot runtime mapping", () => {
 
     expect(
       toRuntimeRunRequest({
-        agent_id: "parts-agent",
-        messages: [{ role: "user", content: "quote this" }],
+        agent_id: "default-agent",
+        messages: [{ role: "user", content: "summarize this" }],
       }),
     ).toEqual({
       threadId: "thread-generated-id",
       runId: "run-generated-id",
-      agentId: "parts-agent",
-      messages: [{ role: "user", content: "quote this" }],
+      agentId: "default-agent",
+      messages: [{ role: "user", content: "summarize this" }],
       state: {},
     });
 
