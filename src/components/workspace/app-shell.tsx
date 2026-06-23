@@ -1,13 +1,17 @@
+"use client";
+
 import {
   ChatCircleText,
   ClockCounterClockwise,
   Plus,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@phosphor-icons/react";
 import { CopilotChatConfigurationProvider } from "@copilotkit/react-core/v2";
+import { useRef, useState } from "react";
 
 import { AgentChat } from "@/components/copilot/agent-chat";
 import { sessions } from "@/data/workspace";
 import { cn } from "@/lib/utils";
+import type { AgentSession } from "@/types/session";
 
 const statusStyles = {
   idle: "bg-zinc-200 text-zinc-700",
@@ -15,7 +19,49 @@ const statusStyles = {
   blocked: "bg-rose-100 text-rose-800",
 } as const;
 
+const agentId = "default";
+const userId = "local-user";
+const initialThreadId = "thread-local-draft";
+
+function createThreadId() {
+  const randomId =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2);
+
+  return `thread-${randomId}`;
+}
+
+function createSession(position: number): AgentSession {
+  return {
+    id: createThreadId(),
+    title: `New chat ${position}`,
+    status: "idle",
+    updatedAt: "Just now",
+  };
+}
+
 export function AppShell() {
+  const nextSessionPosition = useRef(sessions.length + 1);
+  const [workspaceSessions, setWorkspaceSessions] = useState<AgentSession[]>(
+    () => [...sessions],
+  );
+  const [activeThreadId, setActiveThreadId] = useState(
+    () => sessions[0]?.id ?? initialThreadId,
+  );
+
+  const activeSession = workspaceSessions.find(
+    (session) => session.id === activeThreadId,
+  );
+
+  function handleNewChat() {
+    const session = createSession(nextSessionPosition.current);
+    nextSessionPosition.current += 1;
+
+    setWorkspaceSessions((current) => [session, ...current]);
+    setActiveThreadId(session.id);
+  }
+
   return (
     <main className="min-h-dvh bg-[var(--background)] text-[var(--foreground)]">
       <div className="grid min-h-dvh grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)]">
@@ -32,7 +78,11 @@ export function AppShell() {
                 </div>
               </div>
             </div>
-            <button className="icon-button" aria-label="New chat">
+            <button
+              className="icon-button"
+              aria-label="New chat"
+              onClick={handleNewChat}
+            >
               <Plus size={18} />
             </button>
           </div>
@@ -42,12 +92,17 @@ export function AppShell() {
               <ClockCounterClockwise size={15} />
               <span>Session History</span>
             </div>
-            {sessions.length > 0 ? (
+            {workspaceSessions.length > 0 ? (
               <div className="space-y-1">
-                {sessions.map((session) => (
+                {workspaceSessions.map((session) => (
                   <button
                     key={session.id}
-                    className="grid w-full grid-cols-[1fr_auto] gap-2 rounded-md px-2.5 py-2 text-left transition-colors hover:bg-white"
+                    className={cn(
+                      "grid w-full grid-cols-[1fr_auto] gap-2 rounded-md px-2.5 py-2 text-left transition-colors hover:bg-white",
+                      session.id === activeThreadId &&
+                        "bg-white shadow-[inset_2px_0_0_var(--accent)]",
+                    )}
+                    onClick={() => setActiveThreadId(session.id)}
                   >
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-medium">
@@ -76,13 +131,18 @@ export function AppShell() {
           </section>
         </aside>
 
-        <CopilotChatConfigurationProvider agentId="default">
+        <CopilotChatConfigurationProvider
+          agentId={agentId}
+          threadId={activeThreadId}
+        >
           <section className="flex min-h-[720px] min-w-0 flex-col md:h-dvh">
             <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--line)] px-4">
               <div className="min-w-0">
-                <h1 className="truncate text-base font-semibold">Agent</h1>
+                <h1 className="truncate text-base font-semibold">
+                  {activeSession?.title ?? "Agent"}
+                </h1>
                 <p className="truncate text-xs text-[var(--muted)]">
-                  default / local-user
+                  {agentId} / {userId}
                 </p>
               </div>
               <span className="inline-flex h-8 shrink-0 items-center gap-2 rounded-md border border-[var(--line)] bg-white px-2 text-xs font-medium text-zinc-700">
@@ -91,7 +151,7 @@ export function AppShell() {
               </span>
             </header>
             <div className="min-h-0 flex-1 p-3 sm:p-4">
-              <AgentChat />
+              <AgentChat threadId={activeThreadId} />
             </div>
           </section>
         </CopilotChatConfigurationProvider>

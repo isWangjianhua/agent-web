@@ -57,11 +57,17 @@ const attachments: AttachmentsConfig = {
   onUpload: uploadAttachment,
 };
 
-export function AgentChat() {
+type AgentChatProps = {
+  threadId: string;
+};
+
+export function AgentChat({ threadId }: AgentChatProps) {
   return (
     <div className="agent-chat">
       <CopilotChat
+        key={threadId}
         agentId="default"
+        threadId={threadId}
         className="agent-chat__surface"
         attachments={attachments}
         labels={{
