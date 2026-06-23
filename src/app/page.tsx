@@ -1,5 +1,5 @@
-import { AppShell } from "@/components/workspace/app-shell";
+import { Assistant } from "./assistant";
 
 export default function Home() {
-  return <AppShell />;
+  return <Assistant />;
 }

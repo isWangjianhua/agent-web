@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { createPresignedUpload } from "@/lib/agent-runtime";
 import { buildRuntimeHeaders } from "@/lib/auth-headers";
-import { extractRuntimeIdentity } from "@/lib/copilot-runtime";
 import { getServerEnv } from "@/lib/env";
+import { extractRuntimeIdentity } from "@/lib/runtime-identity";
 
 type UploadRequestBody = {
   objectName?: string;

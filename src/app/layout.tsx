@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Providers } from "./providers";
-import "@copilotkit/react-core/v2/styles.css";
+
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Agent Web",
-  description: "CopilotKit chatbot for agent-runtime",
+  description: "assistant-ui chatbot for agent-runtime",
 };
 
 export default function RootLayout({
@@ -27,11 +28,11 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} dark`}
       suppressHydrationWarning
     >
-      <body>
-        <Providers>{children}</Providers>
+      <body className="antialiased">
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );

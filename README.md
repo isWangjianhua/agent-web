@@ -1,10 +1,10 @@
 # Agent Web
 
-Next.js + CopilotKit 通用 chatbot 前端，属于四项目 agent 架构里的 UI 项目。
+Next.js + assistant-ui + Vercel AI SDK 通用 chatbot 前端，属于四项目 agent 架构里的 UI 项目。
 
 ```text
-agent-web        # CopilotKit 通用 chatbot 前端
-agent-runtime    # AgentScope app service + AG-UI adapter
+agent-web        # assistant-ui + AI SDK 通用 chatbot 前端
+agent-runtime    # AgentScope app service + AI SDK stream adapter
 agent-tools-mcp  # FastMCP 业务工具服务
 agent-infra      # Redis、MinIO、部署和观测
 ```
@@ -27,15 +27,16 @@ AGENT_RUNTIME_URL=http://127.0.0.1:8100
 
 ```text
 src/app/                  # App Router 页面和 route handlers
-src/app/api/copilotkit/   # CopilotKit Runtime -> agent-runtime AG-UI 边界
+src/app/assistant.tsx     # assistant-ui minimal 模板入口
+src/app/api/chat/         # assistant-ui / AI SDK -> agent-runtime /chat 边界
 src/app/api/uploads/      # MinIO presign 代理
-src/components/copilot/   # CopilotKit chat 封装
-src/components/workspace/ # 两栏 chatbot 布局和 session history
+src/components/assistant-ui/ # assistant-ui registry 组件
+src/components/ui/        # shadcn UI 基础组件
 src/lib/                  # env、headers、runtime client、协议映射
 src/types/                # 共享类型
 ```
 
-CopilotKit UI 请求进入 `/api/copilotkit/*`，由 `@copilotkit/runtime` 的 `CopilotRuntime + HttpAgent` 转发到 `agent-runtime /agui/run`。
+assistant-ui 通过 AI SDK transport 请求 `/api/chat`，再由薄 route handler 转发到 `agent-runtime /chat`。
 
 ## 检查
 
