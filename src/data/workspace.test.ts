@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { artifacts, sessions } from "./workspace";
+import { sessions } from "./workspace";
 
 const domainTerms = [
   "报价",
@@ -14,13 +14,12 @@ const domainTerms = [
 ];
 
 describe("workspace fixtures", () => {
-  it("does not include default example sessions or artifacts", () => {
+  it("does not include default example sessions", () => {
     expect(sessions).toEqual([]);
-    expect(artifacts).toEqual([]);
   });
 
-  it("uses generic agent workspace examples", () => {
-    const fixtureText = JSON.stringify({ artifacts, sessions }).toLowerCase();
+  it("does not include domain-specific examples", () => {
+    const fixtureText = JSON.stringify({ sessions }).toLowerCase();
 
     for (const term of domainTerms) {
       expect(fixtureText).not.toContain(term.toLowerCase());

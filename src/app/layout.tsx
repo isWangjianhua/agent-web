@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Agent Web",
-  description: "CopilotKit workspace for agent-runtime",
+  description: "CopilotKit chatbot for agent-runtime",
 };
 
 export default function RootLayout({

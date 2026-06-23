@@ -7,7 +7,7 @@
 这是四项目架构中的前端项目：
 
 ```text
-agent-web        # 本项目：Next.js + CopilotKit agent workspace
+agent-web        # 本项目：Next.js + CopilotKit 通用 chatbot 前端
 agent-runtime    # AgentScope app service + AG-UI adapter + memory + artifacts
 agent-tools-mcp  # FastMCP 业务工具服务
 agent-infra      # Redis、MinIO、部署和观测
@@ -26,7 +26,7 @@ src/
     api/uploads/        # 上传 presign 代理
   components/           # 可复用 UI 组件
     copilot/            # CopilotKit UI 包装和附件上传
-    workspace/          # agent 操作台布局
+    workspace/          # chatbot 两栏布局和 session history
   data/                 # 本地演示数据或静态 UI fixtures
   lib/                  # env、runtime client、协议映射、小工具
   types/                # 共享 TypeScript 类型
@@ -42,13 +42,13 @@ public/                 # 静态资源
 - `src/lib/copilot-runtime.ts` 保留请求形状映射、身份 header 提取等可测试逻辑，供直连 AG-UI 或后续调试使用。
 - `src/app/api/uploads/presign/route.ts` 只代理到 `agent-runtime /uploads/presign`。
 - `src/components/copilot/` 只封装 CopilotKit 组件和前端上传交互。
-- `src/components/workspace/` 负责工作台布局，不直接写网络协议细节。
+- `src/components/workspace/` 负责两栏 chatbot 布局，不直接写网络协议细节。
 - 前端只传 artifact object key、metadata、URL 引用，不传大文件 base64。
 
 ## 设计约定
 
-- 这是操作型 agent 工作台，不是 landing page。
-- 默认采用克制、密集但可读的产品 UI：左侧导航/会话，中间 chat workspace，右侧 artifact/runtime context。
+- 这是通用 agent chatbot，不是 landing page。
+- 默认采用克制、清晰的两栏产品 UI：左侧 session history，右侧 chat。
 - 使用 Geist 字体、Tailwind v4、Phosphor icons；不要引入 lucide 或手写 SVG 图标。
 - 避免 AI 紫色渐变、装饰光球、营销 hero、卡片堆叠式 SaaS 首页。
 - 卡片只用于单个 artifact、会话、状态项等真实重复对象；页面结构用 panel、divider、grid 组织。

@@ -58,8 +58,8 @@ textarea {
 }
 
 .agent-chat {
-  min-height: 660px;
-  height: calc(100dvh - 5.5rem);
+  min-height: 620px;
+  height: 100%;
 }
 
 .agent-chat__surface {
@@ -97,6 +97,6 @@ textarea {
 
 @media (max-width: 1023px) {
   .agent-chat {
-    height: 720px;
+    height: calc(100dvh - 5.5rem);
   }
 }
