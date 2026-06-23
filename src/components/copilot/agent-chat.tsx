@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  ArrowClockwise,
-  Copy,
-  Paperclip,
-  PaperPlaneTilt,
-  Stop,
-  ThumbsDown,
-  ThumbsUp,
-} from "@phosphor-icons/react";
-import { CopilotChat, type AttachmentsConfig } from "@copilotkit/react-ui";
-
-import { agentChatSuggestions } from "./agent-chat-config";
+import { CopilotChat, type AttachmentsConfig } from "@copilotkit/react-core/v2";
 
 async function uploadAttachment(file: File) {
   const response = await fetch("/api/uploads/presign", {
@@ -72,30 +61,23 @@ export function AgentChat() {
   return (
     <div className="agent-chat">
       <CopilotChat
+        agentId="default"
         className="agent-chat__surface"
         attachments={attachments}
-        icons={{
-          sendIcon: <PaperPlaneTilt size={20} weight="bold" />,
-          stopIcon: <Stop size={18} weight="bold" />,
-          regenerateIcon: <ArrowClockwise size={16} weight="bold" />,
-          uploadIcon: <Paperclip size={20} weight="bold" />,
-          copyIcon: <Copy size={16} weight="bold" />,
-          thumbsUpIcon: <ThumbsUp size={16} weight="bold" />,
-          thumbsDownIcon: <ThumbsDown size={16} weight="bold" />,
-        }}
         labels={{
-          title: "Agent",
-          initial: "连接到本地 agent-runtime 后，可以直接发起任务。",
-          placeholder: "输入任务、粘贴上下文或上传文件",
-          error: "运行失败，请检查 agent-runtime。",
-          stopGenerating: "停止",
-          regenerateResponse: "重新生成",
-          copyToClipboard: "复制",
-          copied: "已复制",
-          thumbsUp: "认可",
-          thumbsDown: "否决",
+          chatInputPlaceholder: "输入任务、粘贴上下文或上传文件",
+          chatInputToolbarAddButtonLabel: "上传文件",
+          chatInputToolbarToolsButtonLabel: "工具",
+          assistantMessageToolbarCopyMessageLabel: "复制",
+          assistantMessageToolbarCopyCodeLabel: "复制代码",
+          assistantMessageToolbarCopyCodeCopiedLabel: "已复制",
+          assistantMessageToolbarThumbsUpLabel: "认可",
+          assistantMessageToolbarThumbsDownLabel: "否决",
+          assistantMessageToolbarRegenerateLabel: "重新生成",
+          userMessageToolbarCopyMessageLabel: "复制",
+          modalHeaderTitle: "Agent",
+          welcomeMessageText: "连接到本地 agent-runtime 后，可以直接发起任务。",
         }}
-        suggestions={agentChatSuggestions}
       />
     </div>
   );

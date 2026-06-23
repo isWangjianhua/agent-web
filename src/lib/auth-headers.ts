@@ -3,11 +3,20 @@ export type RuntimeIdentity = {
   tenantId?: string;
 };
 
-export function buildRuntimeHeaders(identity: RuntimeIdentity = {}): Record<string, string> {
+export function buildRuntimeIdentityHeaders(
+  identity: RuntimeIdentity = {},
+): Record<string, string> {
   return {
-    "content-type": "application/json",
     "x-tenant-id": identity.tenantId || "default",
     "x-user-id": identity.userId || "local-user",
   };
 }
 
+export function buildRuntimeHeaders(
+  identity: RuntimeIdentity = {},
+): Record<string, string> {
+  return {
+    "content-type": "application/json",
+    ...buildRuntimeIdentityHeaders(identity),
+  };
+}

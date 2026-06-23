@@ -1,3 +1,11 @@
-import type { CopilotChatSuggestion } from "@copilotkit/react-ui";
+export type AgentChatSuggestionConfiguration = {
+  instructions: string;
+  minSuggestions?: number;
+  maxSuggestions?: number;
+  className?: string;
+};
 
-export const agentChatSuggestions: CopilotChatSuggestion[] = [];
+export const agentChatSuggestions: Record<
+  string,
+  AgentChatSuggestionConfiguration
+> = {};
