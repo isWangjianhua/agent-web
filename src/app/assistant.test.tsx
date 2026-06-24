@@ -33,15 +33,21 @@ vi.mock("@assistant-ui/react-ai-sdk", () => ({
   useChatRuntime: () => ({ runtime: true }),
 }));
 
-vi.mock("@/components/assistant-ui/chatgpt-thread", () => ({
-  ChatGPTThread: () => <div data-testid="chatgpt-thread" />,
+vi.mock("@/components/assistant-ui/thread", () => ({
+  Thread: () => <div data-testid="assistant-thread" />,
+}));
+
+vi.mock("@/components/assistant-ui/threadlist-sidebar", () => ({
+  ThreadListSidebar: () => <aside data-testid="thread-list-sidebar" />,
 }));
 
 describe("Assistant", () => {
-  it("renders the ChatGPT-style assistant-ui template inside the runtime provider", () => {
+  it("renders the assistant-ui default shell inside the runtime provider", () => {
     render(<Assistant />);
 
     expect(screen.getByTestId("assistant-runtime-provider")).toBeVisible();
-    expect(screen.getByTestId("chatgpt-thread")).toBeVisible();
+    expect(screen.getByTestId("thread-list-sidebar")).toBeVisible();
+    expect(screen.getByTestId("assistant-thread")).toBeVisible();
+    expect(screen.getByText("Agent Web")).toBeVisible();
   });
 });

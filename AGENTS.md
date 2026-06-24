@@ -22,7 +22,7 @@ agent-infra      # Redis、MinIO、部署和观测
 ```text
 src/
   app/                  # Next.js App Router 页面、layout、route handlers
-    assistant.tsx       # assistant-ui runtime + ChatGPT clone template 入口
+    assistant.tsx       # assistant-ui runtime + default/base shell 入口
     api/chat/           # assistant-ui / AI SDK 到 agent-runtime /chat 的协议边界
     api/uploads/        # 上传 presign 代理
   components/           # 可复用 UI 组件
@@ -41,14 +41,14 @@ public/                 # 静态资源
 - `src/lib/chat-runtime.ts` 只把 AI SDK 请求转发到 `agent-runtime /chat`，并保留 AI SDK stream headers。
 - `src/lib/runtime-identity.ts` 保留身份 header 提取等可测试逻辑。
 - `src/app/api/uploads/presign/route.ts` 只代理到 `agent-runtime /uploads/presign`。
-- `src/app/assistant.tsx` 只创建 runtime、AI SDK transport 和附件 adapter，再挂载 assistant-ui 官方 ChatGPT Clone template。
+- `src/app/assistant.tsx` 只创建 runtime、AI SDK transport 和附件 adapter，再挂载 assistant-ui 官方 default/base shell。
 - `src/components/assistant-ui/` 使用 assistant-ui registry 组件，避免重新手写 chat UI。
 - 前端只传 artifact object key、metadata、URL 引用，不传大文件 base64。
 
 ## 设计约定
 
 - 这是通用 agent chatbot，不是 landing page。
-- 默认采用 assistant-ui 官方 ChatGPT Clone example 和 registry 组件，不额外维护自写 session shell。
+- 默认采用 assistant-ui 官方 default/base shell 和 registry 组件，不额外维护自写 session shell。
 - 使用 Geist 字体、Tailwind v4、shadcn UI 和 lucide icons，assistant-ui registry 组件优先。
 - 避免 AI 紫色渐变、装饰光球、营销 hero、卡片堆叠式 SaaS 首页。
 - 卡片只用于单个 artifact、会话、状态项等真实重复对象；页面结构用 panel、divider、grid 组织。
