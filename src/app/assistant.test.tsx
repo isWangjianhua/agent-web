@@ -52,7 +52,7 @@ describe("Assistant", () => {
     expect(screen.getByTestId("assistant-runtime-provider")).toBeVisible();
     expect(screen.getByTestId("thread-list-sidebar")).toBeVisible();
     expect(screen.getByTestId("assistant-thread")).toBeVisible();
-    expect(screen.getByText("Agent Web")).toBeVisible();
+    expect(screen.getByText("Starter Template")).toBeVisible();
   });
 
   it("does not auto-resubmit after backend-managed tool calls complete", () => {
