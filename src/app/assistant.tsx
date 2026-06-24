@@ -13,7 +13,7 @@ import {
 } from "@assistant-ui/react-ai-sdk";
 import { lastAssistantMessageIsCompleteWithToolCalls } from "ai";
 
-import { Thread } from "@/components/assistant-ui/thread";
+import { ChatGPTThread } from "@/components/assistant-ui/chatgpt-thread";
 
 const localRuntimeHeaders = {
   "x-tenant-id": "default",
@@ -96,8 +96,8 @@ const attachmentAdapter: AttachmentAdapter = {
   },
 };
 
-export function Assistant() {
-  const runtime = useChatRuntime({
+function useAgentRuntime() {
+  return useChatRuntime({
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     transport: new AssistantChatTransport({
       api: "/api/chat",
@@ -107,11 +107,15 @@ export function Assistant() {
       attachments: attachmentAdapter,
     },
   });
+}
+
+export function Assistant() {
+  const runtime = useAgentRuntime();
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
       <div className="h-dvh">
-        <Thread />
+        <ChatGPTThread />
       </div>
     </AssistantRuntimeProvider>
   );
