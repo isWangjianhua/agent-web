@@ -28,9 +28,13 @@ vi.mock("@assistant-ui/react", async (importOriginal) => {
   };
 });
 
+const { useChatRuntimeMock } = vi.hoisted(() => ({
+  useChatRuntimeMock: vi.fn(() => ({ runtime: true })),
+}));
+
 vi.mock("@assistant-ui/react-ai-sdk", () => ({
   AssistantChatTransport: vi.fn(),
-  useChatRuntime: () => ({ runtime: true }),
+  useChatRuntime: useChatRuntimeMock,
 }));
 
 vi.mock("@/components/assistant-ui/thread", () => ({
@@ -49,5 +53,15 @@ describe("Assistant", () => {
     expect(screen.getByTestId("thread-list-sidebar")).toBeVisible();
     expect(screen.getByTestId("assistant-thread")).toBeVisible();
     expect(screen.getByText("Agent Web")).toBeVisible();
+  });
+
+  it("does not auto-resubmit after backend-managed tool calls complete", () => {
+    render(<Assistant />);
+
+    expect(useChatRuntimeMock).toHaveBeenCalledWith(
+      expect.not.objectContaining({
+        sendAutomaticallyWhen: expect.anything(),
+      }),
+    );
   });
 });
